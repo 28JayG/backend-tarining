@@ -3,15 +3,15 @@ const express = require('express');
 const {
   getAllTours,
   createTour,
-  getTourById,
-  updateTourById,
-  deleteTourById,
-  checkId,
+  getTour: getTourById,
+  updateTour: updateTourById,
+  deleteTour: deleteTourById,
+  getTourStats,
 } = require('../controllers/tour-controller');
 
 const router = express.Router();
 
-router.param('tourId', checkId);
+router.route('/tour-stats').get(getTourStats);
 
 router.route('/').get(getAllTours).post(createTour);
 
