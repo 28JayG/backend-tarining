@@ -9,18 +9,19 @@ const {
   getTourStats,
   getMonthlyPlan,
 } = require('../controllers/tour-controller');
+const { protect, restrictTo } = require('../controllers/auth-controller');
 
 const router = express.Router();
 
 router.route('/tour-stats').get(getTourStats);
 router.route('/monthly-plan/:year').get(getMonthlyPlan);
 
-router.route('/').get(getAllTours).post(createTour);
+router.route('/').get(protect, getAllTours).post(createTour);
 
 router
   .route('/:tourId')
   .get(getTourById)
   .patch(updateTourById)
-  .delete(deleteTourById);
+  .delete(protect, restrictTo('admin', 'lead-guide'), deleteTourById);
 
 module.exports = router;
